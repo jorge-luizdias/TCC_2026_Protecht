@@ -1,0 +1,41 @@
+{
+  "version": "1.0.0",
+  "darkMode": true,
+  "gridEnabling": false,
+  "detailLevel": "All",
+  "tablePositions": [
+    {
+      "name": "users",
+      "schemaName": "public",
+      "x": 669.5264123606894,
+      "y": -89.15699294906858
+    },
+    {
+      "name": "profiles",
+      "schemaName": "public",
+      "x": 330.8420297223277,
+      "y": 294.3966053161497
+    },
+    {
+      "name": "courses",
+      "schemaName": "public",
+      "x": 732.7501058569095,
+      "y": 195.98350822608688
+    },
+    {
+      "name": "classes",
+      "schemaName": "public",
+      "x": 813.4495567434747,
+      "y": 351.9917541130435
+    },
+    {
+      "name": "complaints",
+      "schemaName": "public",
+      "x": 330.8420297223277,
+      "y": -89.15699294906858
+    }
+  ],
+  "tableGroupCollapseStates": [],
+  "stickyNoteLayouts": [],
+  "referencePaths": []
+}
