@@ -1,57 +1,37 @@
-// 1. Centralização de todos os usuários do sistema
+// Updated users table linked to roles
 Table users {
   id integer [pk, increment]
   name text [not null]
   email text [unique, not null]
   password text [not null]
-  access_nivel text [not null, note: 'STUDENT, STAFF, ADMIN']
+  role text [not null, note: "NIVEL DE ACESSO ADIMIN|COORDENADOR|PROFESSOR|ALUNO", default: "ALUNO"]
+  course_id integer [ref: > courses.id]
   created_at text [not null, default: `CURRENT_TIMESTAMP`]
   updated_at text [not null, default: `CURRENT_TIMESTAMP`]
 }
 
-// 2. Metadados para identificar RM ou Registro Funcional
-Table profiles {
+Table guardians {
   id integer [pk, increment]
-  user_id integer [unique, not null]
-  identifier_code text [unique, not null, note: 'RM ou Numero de Registro']
-  course_id integer // Opcional, apenas para alunos
-  class_id integer  // Opcional, apenas para alunos
+  student_id integer [not null, ref: > users.id]
+  name text [not null]
+  cellphone text
   created_at text [not null, default: `CURRENT_TIMESTAMP`]
   updated_at text [not null, default: `CURRENT_TIMESTAMP`]
 }
 
-// 3. Estrutura de Cursos (Ex: Informática, Enfermagem)
 Table courses {
   id integer [pk, increment]
   name text [not null]
   code text [unique, not null]
 }
 
-// 4. Agrupamento de Turmas e Períodos (Ex: 3º Info - Noite)
-Table classes {
-  id integer [pk, increment]
-  name text [not null, note: 'Ex: 1º Informática A - Manhã']
-  course_id integer [not null]
-}
-
-// 5. Núcleo do Sistema de Denúncias
 Table complaints {
   id integer [pk, increment]
-  reporter_id integer [note: 'ID do User. Null se anônimo']
-  reported_user_id integer [not null]
-  is_anonymous integer [default: 0, note: '0 ou 1']
-  category text [not null]
+  reporter_id text [not null]
+  reported_user_id text [not null]
   description text [not null]
-  status text [default: 'Pendente']
-  incident_date text
+  incident_date text [not null]
+  status text [default: 'PENDING']
   created_at text [not null, default: `CURRENT_TIMESTAMP`]
   updated_at text [not null, default: `CURRENT_TIMESTAMP`]
 }
-
-// Relacionamentos
-Ref: profiles.user_id > users.id [delete: cascade]
-Ref: profiles.course_id > courses.id
-Ref: profiles.class_id > classes.id
-Ref: classes.course_id > courses.id
-Ref: complaints.reporter_id > users.id
-Ref: complaints.reported_user_id > users.id

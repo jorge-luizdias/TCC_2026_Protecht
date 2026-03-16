@@ -7,35 +7,60 @@
     {
       "name": "users",
       "schemaName": "public",
-      "x": 669.5264123606894,
-      "y": -89.15699294906858
+      "x": 630.3770046940297,
+      "y": -290.80297849484464
     },
     {
-      "name": "profiles",
+      "name": "guardians",
       "schemaName": "public",
-      "x": 330.8420297223277,
-      "y": 294.3966053161497
+      "x": 368.3936115092838,
+      "y": 21.28368600432748
     },
     {
       "name": "courses",
       "schemaName": "public",
-      "x": 732.7501058569095,
-      "y": 195.98350822608688
-    },
-    {
-      "name": "classes",
-      "schemaName": "public",
-      "x": 813.4495567434747,
-      "y": 351.9917541130435
+      "x": 650.53891957826,
+      "y": 28.676877770390604
     },
     {
       "name": "complaints",
       "schemaName": "public",
-      "x": 330.8420297223277,
-      "y": -89.15699294906858
+      "x": 282.2549741543529,
+      "y": -290.80297849484464
     }
   ],
   "tableGroupCollapseStates": [],
   "stickyNoteLayouts": [],
-  "referencePaths": []
+  "referencePaths": [
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "courses",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "course_id"
+      ],
+      "secondTableName": "users",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "users",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "student_id"
+      ],
+      "secondTableName": "guardians",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    }
+  ]
 }
