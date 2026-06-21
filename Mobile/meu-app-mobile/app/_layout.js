@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     paddingBottom: 14,
   },
   headerIcon: { fontSize: 20, color: '#fff' },
-  headerTitle: { fontSize: 16, fontWeight: '700', color: '#fff', flex: 1, textAlign: 'center' },
+  headerTitle: { fontSize: 16, fontWeight: '700', color: '#ffffff', flex: 1, textAlign: 'center' },
 
   // Overlay
   overlay: {

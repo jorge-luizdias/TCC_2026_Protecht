@@ -1,8 +1,7 @@
 // Inicio.js
-// Tela inicial do app — exibe boas-vindas, botão de denúncia e "Como funciona"
+// Tela inicial do app Safely — design fiel ao mockup fornecido
 // Props:
 //   navigation — objeto de navegação (react-navigation)
-//   onOpenDrawer — função para abrir o menu lateral (vinda do _layout.js)
 
 import React from 'react';
 import {
@@ -11,51 +10,76 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  SafeAreaView,
-  StatusBar,
-  Dimensions,
+  Image,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import Svg, { Path, Rect, Circle } from 'react-native-svg';
 import { FooterLogos } from '../components/logos';
 
-const { width } = Dimensions.get('window');
+// ── Ícones inline (SVG) ──────────────────────────────────
+const LockIcon = () => (
+  <Svg width="60" height="60" viewBox="0 0 24 24" fill="none">
+    <Rect x="5" y="11" width="14" height="9" rx="2" fill="#19b3a6" />
+    <Path
+      d="M8 11V8a4 4 0 0 1 8 0v3"
+      stroke="#19b3a6"
+      strokeWidth={2.2}
+      strokeLinecap="round"
+      fill="none"
+    />
+    <Circle cx="12" cy="15" r="1.4" fill="#fff" />
+  </Svg>
+);
+
+const InfoIcon = () => (
+  <Svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+    <Circle cx="12" cy="12" r="10" fill="#16365e" />
+    <Rect x="11" y="10" width="2" height="7" rx="1" fill="#fff" />
+    <Circle cx="12" cy="7.2" r="1.3" fill="#fff" />
+  </Svg>
+);
 
 // ── Tela principal ───────────────────────────────────────
 export default function Inicio({ navigation }) {
   return (
-    <SafeAreaView style={styles.safe}>
-      <StatusBar barStyle="light-content" backgroundColor="#1a5fb4" />
-
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Hero section — fundo azul com texto e ícone */}
-        <View style={styles.hero}>
-          <View style={styles.heroTextWrap}>
-            <Text style={styles.heroText}>
-              <Text style={styles.heroSafely}>Safely </Text>
-              um espaço{'\n'}seguro para você
-            </Text>
-          </View>
-          {/* Ícone de balão de chat + escudo */}
-          <View style={styles.heroIconWrap}>
-            <View style={styles.heroShield}>
-              <Text style={styles.heroShieldIcon}>🛡️</Text>
-              <View style={styles.heroBubble}>
-                <Text style={styles.heroBubbleIcon}>💬</Text>
-              </View>
-            </View>
-          </View>
+    <ScrollView
+      style={styles.scroll}
+      contentContainerStyle={styles.scrollContent}
+      showsVerticalScrollIndicator={false}
+    >
+      {/* Boas-vindas — fundo branco, texto + espaço para logo Safely */}
+      <View style={styles.welcome}>
+        <View style={styles.welcomeTextWrap}>
+          <Text style={styles.welcomeText}>
+            <Text style={styles.welcomeSafely}>Safely </Text>
+            um espaço{'\n'}seguro para você
+          </Text>
         </View>
 
-        {/* Área branca com cards */}
+        {/* Espaço reservado para a logo safely.png (escudo + balão) */}
+        <View style={styles.logoWrap}>
+          <Image
+            source={require('../assets/images/safelysemtxt.png')}
+            style={styles.logoImg}
+            resizeMode="contain"
+          />
+        </View>
+      </View>
+
+      {/* Faixa com degradê azul escuro → azul claro */}
+      <LinearGradient
+        colors={['#0d3f8f', '#1a5fb4', '#3a8fd4', '#a7d6fa']}
+        locations={[0, 0.25, 0.6, 1]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 1 }}
+        style={styles.gradientArea}
+      >
         <View style={styles.body}>
 
           {/* Card — Denunciar */}
           <View style={styles.card}>
             <View style={styles.cardLeft}>
-              <Text style={styles.cardLock}>🔒</Text>
+              <LockIcon />
             </View>
             <View style={styles.cardCenter}>
               <Text style={styles.cardText}>
@@ -79,9 +103,9 @@ export default function Inicio({ navigation }) {
           >
             <View style={styles.cardHowLeft}>
               <View style={styles.infoCircle}>
-                <Text style={styles.infoIcon}>ℹ️</Text>
+                <InfoIcon />
               </View>
-              <View>
+              <View style={styles.cardHowTextWrap}>
                 <Text style={styles.howTitle}>Como funciona o aplicativo?</Text>
                 <Text style={styles.howSub}>Aprenda a registrar sua{'\n'}primeira denúncia</Text>
               </View>
@@ -90,48 +114,56 @@ export default function Inicio({ navigation }) {
           </TouchableOpacity>
 
         </View>
+      </LinearGradient>
 
-        <FooterLogos />
-      </ScrollView>
-    </SafeAreaView>
+      <FooterLogos />
+    </ScrollView>
   );
 }
 
 // ── Estilos ──────────────────────────────────────────────
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#1a5fb4' },
-  scroll: { flex: 1, backgroundColor: '#1a5fb4' },
+  scroll: { flex: 1, backgroundColor: '#ffffff' },
   scrollContent: { paddingBottom: 24, flexGrow: 1 },
 
-  // Hero
-  hero: {
-    backgroundColor: '#1a5fb4',
+  // Boas-vindas (fundo branco)
+  welcome: {
+    backgroundColor: '#ffffff',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 24,
-    paddingTop: 24,
-    paddingBottom: 32,
+    paddingTop: 10,
+    paddingBottom: 20,
   },
-  heroTextWrap: { flex: 1 },
-  heroText: { fontSize: 20, color: '#fff', fontWeight: '500', lineHeight: 28 },
-  heroSafely: { color: '#7ec8f7', fontWeight: '700' },
-  heroIconWrap: { width: 80, alignItems: 'center' },
-  heroShield: { position: 'relative', alignItems: 'center', justifyContent: 'center' },
-  heroShieldIcon: { fontSize: 52 },
-  heroBubble: {
-    position: 'absolute', top: -6, right: -10,
-    backgroundColor: '#3a8fd4', borderRadius: 12, padding: 4,
-  },
-  heroBubbleIcon: { fontSize: 14 },
+  welcomeTextWrap: { flex: 1 },
+  welcomeText: { fontSize: 19, color: '#1a2b3c', fontWeight: '500', lineHeight: 26 },
+  welcomeSafely: { color: '#1a5fb4', fontWeight: '700' },
 
-  // Corpo branco
-  body: {
-    backgroundColor: '#f0f6fc',
+  // Espaço reservado para a logo (escudo + balão)
+  logoWrap: {
+    width: 72,
+    height: 64,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logoImg: {
+    width: '100%',
+    height: '100%',
+  },
+
+  // Faixa com degradê
+  gradientArea: {
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
-    padding: 20,
+    paddingTop: 22,
+    paddingBottom: 60,
     flex: 1,
+  },
+
+  // Corpo dos cards
+  body: {
+    paddingHorizontal: 18,
     gap: 14,
   },
 
@@ -142,27 +174,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 18,
-    shadowColor: '#1a5fb4',
+    shadowColor: '#0a2e57',
     shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.09,
+    shadowOpacity: 0.12,
     shadowRadius: 8,
     elevation: 4,
     gap: 14,
   },
   cardLeft: { alignItems: 'center', justifyContent: 'center' },
-  cardLock: { fontSize: 36 },
-  cardCenter: { flex: 1, gap: 10 },
-  cardText: { fontSize: 13, color: '#444', lineHeight: 19 },
+  cardCenter: { flex: 1, alignItems: 'center', gap: 10 },
+  cardText: { fontSize: 13, color: '#444', lineHeight: 19, textAlign: 'center' },
   cardBold: { fontWeight: '700', color: '#222' },
   btnDenunciar: {
     backgroundColor: '#1a5fb4',
     borderRadius: 20,
     paddingVertical: 9,
-    paddingHorizontal: 28,
-    alignSelf: 'flex-start',
-    shadowColor: '#1a5fb4',
+    paddingHorizontal: 30,
+    shadowColor: '#0a2e57',
     shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.28,
+    shadowOpacity: 0.3,
     shadowRadius: 6,
     elevation: 4,
   },
@@ -176,18 +206,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 16,
-    shadowColor: '#1a5fb4',
+    shadowColor: '#0a2e57',
     shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.09,
+    shadowOpacity: 0.12,
     shadowRadius: 8,
     elevation: 4,
   },
   cardHowLeft: { flexDirection: 'row', alignItems: 'center', gap: 12, flex: 1 },
   infoCircle: {
-    width: 36, height: 36, borderRadius: 18,
-    backgroundColor: '#e8f0fe', alignItems: 'center', justifyContent: 'center',
+    width: 30, height: 30, borderRadius: 15,
+    alignItems: 'center', justifyContent: 'center',
   },
-  infoIcon: { fontSize: 18 },
+  cardHowTextWrap: { flex: 1 },
   howTitle: { fontSize: 13, fontWeight: '700', color: '#222', marginBottom: 2 },
   howSub: { fontSize: 11, color: '#5a7a8f', lineHeight: 16 },
   howArrow: { fontSize: 22, color: '#1a5fb4', fontWeight: '700' },

@@ -28,7 +28,7 @@ export default function SplashScreen({ navigation }) {
     // Navega para Login após 2.5 segundos
     const timer = setTimeout(() => {
       navigation.replace('Login');
-    }, 2500);
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, [navigation, slideAnim, opacityAnim]);
@@ -47,8 +47,6 @@ export default function SplashScreen({ navigation }) {
           style={styles.logoImage}
           resizeMode="contain"
         />
-        <Text style={styles.appName}>Safely</Text>
-        <Text style={styles.tagline}>Um espaço seguro para você</Text>
       </Animated.View>
     </View>
   );
@@ -57,25 +55,25 @@ export default function SplashScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#9ee2ff',
+    backgroundColor: '#ffffff',
     justifyContent: 'center',
     alignItems: 'center',
   },
   logoImage: {
-    width: 180,
-    height: 180,
+    width: 200,
+    height: 200,
     marginBottom: 20,
     backgroundColor: 'transparent',
   },
   appName: {
     fontSize: 36,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: '#7db6eb',
     marginBottom: 10,
   },
   tagline: {
     fontSize: 16,
-    color: '#E0F2FF',
+    color: '#aed8f7',
     textAlign: 'center',
   },
 });
