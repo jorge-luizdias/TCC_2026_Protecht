@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Production
+build/
+dist/
+
+# Misc
+.DS_Store
+.env
+.env.local
+.env.*.local
+.vscode/
+.idea/
+*.log
+
+# Mobile (Expo)
+.expo/
+.expo-shared/
+Mobile/meu-app-mobile/.expo-shared/
+Mobile/meu-app-mobile/.expo/
+
+# Backend
+backend/node_modules/
+
+# Web
+Web/node_modules/
+Web/.env
+Web/dist/
