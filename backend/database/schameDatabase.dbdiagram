@@ -1,0 +1,66 @@
+{
+  "version": "1.0.0",
+  "darkMode": true,
+  "gridEnabling": false,
+  "detailLevel": "All",
+  "tablePositions": [
+    {
+      "name": "users",
+      "schemaName": "public",
+      "x": 630.3770046940297,
+      "y": -290.80297849484464
+    },
+    {
+      "name": "guardians",
+      "schemaName": "public",
+      "x": 368.3936115092838,
+      "y": 21.28368600432748
+    },
+    {
+      "name": "courses",
+      "schemaName": "public",
+      "x": 650.53891957826,
+      "y": 28.676877770390604
+    },
+    {
+      "name": "complaints",
+      "schemaName": "public",
+      "x": 282.2549741543529,
+      "y": -290.80297849484464
+    }
+  ],
+  "tableGroupCollapseStates": [],
+  "stickyNoteLayouts": [],
+  "referencePaths": [
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "courses",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "course_id"
+      ],
+      "secondTableName": "users",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "users",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "student_id"
+      ],
+      "secondTableName": "guardians",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    }
+  ]
+}

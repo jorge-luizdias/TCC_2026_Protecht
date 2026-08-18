@@ -1,0 +1,8 @@
+node_modules
+dist
+bluid
+coverage
+.env
+.Ds_Store
+*.log
+.idea

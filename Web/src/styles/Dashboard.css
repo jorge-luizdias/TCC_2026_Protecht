@@ -1,0 +1,130 @@
+/* Estilos do Dashboard */
+
+.paginaDashboard {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+}
+
+.headerDashboard {
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 20px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.containerHeader {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.containerHeader h1 {
+  font-size: 28px;
+  color: #333;
+}
+
+.infoUsuario {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.infoUsuario span {
+  font-size: 14px;
+  color: #666;
+}
+
+.botaoLogout {
+  padding: 8px 16px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.botaoLogout:hover {
+  background-color: #da190b;
+}
+
+.mainDashboard {
+  flex: 1;
+  padding: 30px 20px;
+}
+
+.containerDashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.secaoFiltros {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.secaoFiltros h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.filtros {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.filtros label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.filtros select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: white;
+  cursor: pointer;
+  min-width: 150px;
+}
+
+.mensagemErro {
+  padding: 16px;
+  background-color: #ffebee;
+  border: 1px solid #ef5350;
+  border-radius: 8px;
+  color: #c62828;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.carregando {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+  font-size: 16px;
+}
+
+.semDados {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+  font-size: 16px;
+  background-color: white;
+  border-radius: 8px;
+}
