@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import RotaProtegida from './components/RotaProtegida';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import Layout from './pages/layout';
 import './App.css';
 
 function App() {
@@ -12,13 +13,14 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route
-            path="/dashboard"
             element={
               <RotaProtegida>
-                <Dashboard />
+                <Layout />
               </RotaProtegida>
             }
-          />
+          >
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
           {/* Redireciona rota raiz para dashboard */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           {/* Página 404 */}

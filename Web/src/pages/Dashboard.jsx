@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import * as apiService from '../services/api';
 import TabelaDenuncias from '../components/TabelaDenuncias';
 import '../styles/Dashboard.css';
@@ -10,9 +8,6 @@ export default function Dashboard() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState('');
   const [filtroStatus, setFiltroStatus] = useState('');
-
-  const { usuario, logout } = useAuth();
-  const navegar = useNavigate();
 
   // Carrega denúncias ao montar ou ao mudar filtro
   useEffect(() => {
@@ -43,25 +38,8 @@ export default function Dashboard() {
     }
   }
 
-  function handleLogout() {
-    logout();
-    navegar('/login');
-  }
-
   return (
     <div className="paginaDashboard">
-      <header className="headerDashboard">
-        <div className="containerHeader">
-          <h1>Protecht</h1>
-          <div className="infoUsuario">
-            <span>{usuario?.nome} ({usuario?.role})</span>
-            <button onClick={handleLogout} className="botaoLogout">
-              Sair
-            </button>
-          </div>
-        </div>
-      </header>
-
       <main className="mainDashboard">
         <div className="containerDashboard">
           <section className="secaoFiltros">
