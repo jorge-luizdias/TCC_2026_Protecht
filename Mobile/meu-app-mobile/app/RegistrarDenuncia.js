@@ -2,7 +2,7 @@
 // Navegação esperada: navigation.navigate('MinhasDenuncias') após envio bem-sucedido
 // Contexto: usa DenunciasContext para salvar a denúncia
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -19,6 +19,7 @@ import {
 } from 'react-native';
 import { useDenuncias } from '../components/DenunciasContext';
 import { FooterLogos } from '../components/logos';
+import { listCourses } from '../services/api';
 
 const { width } = Dimensions.get('window');
 
@@ -71,20 +72,43 @@ export default function RegistrarDenuncia({ navigation }) {
   const [discriminacao, setDiscriminacao] = useState('');
   const [local, setLocal]               = useState('');
   const [descricao, setDescricao]       = useState('');
+  const [courses, setCourses]           = useState([]);
+  const [cursoDenunciante, setCursoDenunciante] = useState('');
+  const [anoDenunciante, setAnoDenunciante] = useState('');
+  const [cursoDenunciado, setCursoDenunciado] = useState('');
+  const [anoDenunciado, setAnoDenunciado] = useState('');
 
-  const enviar = () => {
-    if (!denunciado || !tipo || !discriminacao || !descricao.trim()) {
+  useEffect(() => {
+    listCourses().then(setCourses).catch((error) => Alert.alert('Erro', error.message));
+  }, []);
+
+  const enviar = async () => {
+    if (!cursoDenunciante || !anoDenunciante || !denunciado || !cursoDenunciado || !anoDenunciado || !tipo || !descricao.trim()) {
       Alert.alert('Atenção', 'Preencha todos os campos obrigatórios antes de enviar.');
       return;
     }
-    addDenuncia({ denunciado, tipo, discriminacao, local, descricao });
-    Alert.alert(
-      '✅ Denúncia enviada!',
-      'Seu relato foi enviado de forma anônima e segura.',
-      [{ text: 'Ver minhas denúncias', onPress: () => navigation.navigate('MinhasDenuncias') }]
-    );
-    // Limpa os campos para uma eventual nova denúncia
-    setDenunciado(''); setTipo(''); setDiscriminacao(''); setLocal(''); setDescricao('');
+    if (!/^\d{4}$/.test(anoDenunciante) || !/^\d{4}$/.test(anoDenunciado)) {
+      Alert.alert('Atenção', 'Os anos devem ter quatro dígitos.');
+      return;
+    }
+    try {
+      await addDenuncia({
+        user_id_course: cursoDenunciante,
+        user_id_enrollment_year: anoDenunciante,
+        reported_user_name: denunciado,
+        reported_user_id_course: cursoDenunciado,
+        reported_user_id_enrollment_year: anoDenunciado,
+        category: discriminacao ? `${tipo} - ${discriminacao}` : tipo,
+        description: local ? `Local: ${local}\n${descricao.trim()}` : descricao.trim(),
+        is_anonymous: 1,
+      });
+      Alert.alert('Denúncia enviada', 'Seu relato foi enviado de forma anônima e segura.', [
+        { text: 'Ver minhas denúncias', onPress: () => navigation.navigate('MinhasDenunciasMenu') },
+      ]);
+      setDenunciado(''); setTipo(''); setDiscriminacao(''); setLocal(''); setDescricao('');
+    } catch (error) {
+      Alert.alert('Não foi possível enviar', error.message);
+    }
   };
 
   return (
@@ -106,12 +130,15 @@ export default function RegistrarDenuncia({ navigation }) {
 
         {/* Formulário */}
         <View style={styles.card}>
-          <Dropdown
-            label="Deseja denunciar quem?"
-            value={denunciado}
-            options={['Aluno(a)', 'Professor(a)', 'Funcionário(a)', 'Outro']}
-            onChange={setDenunciado}
-          />
+          <Dropdown label="Seu curso" value={courses.find((course) => course.id === cursoDenunciante)?.name} options={courses.map((course) => course.name)} onChange={(name) => setCursoDenunciante(courses.find((course) => course.name === name)?.id)} />
+          <Text style={styles.fieldLabel}>Seu ano de ingresso</Text>
+          <TextInput style={styles.input} value={anoDenunciante} onChangeText={setAnoDenunciante} keyboardType="numeric" maxLength={4} placeholder="Ex: 2023" placeholderTextColor="#b0c8db" />
+          <Text style={styles.fieldLabel}>Nome do denunciado</Text>
+          <TextInput style={styles.input} value={denunciado} onChangeText={setDenunciado} placeholder="Nome completo" placeholderTextColor="#b0c8db" />
+          <Text style={styles.fieldLabel}>Curso do denunciado</Text>
+          <TextInput style={styles.input} value={cursoDenunciado} onChangeText={setCursoDenunciado} placeholder="Curso" placeholderTextColor="#b0c8db" />
+          <Text style={styles.fieldLabel}>Ano de ingresso do denunciado</Text>
+          <TextInput style={styles.input} value={anoDenunciado} onChangeText={setAnoDenunciado} keyboardType="numeric" maxLength={4} placeholder="Ex: 2023" placeholderTextColor="#b0c8db" />
           <Dropdown
             label="Tipo da denúncia"
             value={tipo}

@@ -1,0 +1,93 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Project ProtechtBD {
+  database_type: 'SQLite'
+  Note: 'Sistema de Denúncias para Instituições de Ensino - Builded by Protecht'
+}
+
+/*
+O processo de verificação do e-mail acontece pela tela de cadastro do sistema, o backend envia
+um e-mail para o usuário com um código de verificação (grava o código no banco), que deve ser inserido na tela de
+ verificação do e-mail. Em outra rota o backend verifica se o código inserido é igual ao código gravado 
+ no banco, caso seja, zera o campo de code e o campo verified_email é atualizado para 1 (verificado) e 
+ pode acessar o sistema.
+*/
+
+// 1. Registro de todos os usuários do sistema
+Table users {
+  id integer [pk, increment]
+  name text [note: 'Nome completo do usuário, não tem necessidade preenchimento']
+  email text [unique, not null, note: 'Email institucional do usuário']
+  verified_email integer [default: 0, note: '0 não verificado ou 1 verificado']
+  verified_code text [note: 'Código de verificação do email']
+  rm text [not null, unique, note: 'Registro do aluno, caso seja estudante e é obrigatório']
+  password text [not null, default: 'Aluno123!', note: 'Senha do usuário']
+  photo text [note: 'Foto do usuário, caso seja estudante']
+  access_nivel text [not null, note: 'USER, ADMIN', checks: 'access_nivel in ("USER", "ADMIN")']
+  created_at text [not null, default: `CURRENT_TIMESTAMP`]
+  updated_at text [not null, default: `CURRENT_TIMESTAMP`]
+
+  Indexes {
+    email [name: 'idx_users_email']
+    name [name: 'idx_users_nome']
+    rm [name: 'idx_users_rm']
+  }
+
+  records (email, password, rm) {
+    'admin@admin.com', 'Admin123!', '000000'
+  }
+}
+
+// 2. Estrutura de Cursos (Ex: Informática, Enfermagem)
+Table courses {
+  id integer [pk, increment]
+  name text [not null, note:  'Nome Institucional do Curso']
+  code text [unique, not null,  note: 'Código Individual Institucional do Curso']
+
+  Indexes {
+    name [name: 'idx_courses_name']
+    code [name: 'idx_courses_code']
+  }
+
+  records (name, code) {
+    'Informática', 'INF'
+    'Enfermagem', 'ENF'
+    'Biológicas', 'BIO'
+    'Administração', 'ADM'
+    'Agropecuária', 'AGR'
+  }
+}
+
+// 3. Núcleo do Sistema de Denúncias
+Table complaints {
+  id integer [pk, increment]
+  user_id integer [not null, ref: > users.id,note: 'ID do User do denunciante']
+  user_id_course integer [not null, ref: > courses.id, note: 'ID do Curso do denunciante']
+  user_id_enrollment_year integer [not null, note: 'Ano de Ingresso do denunciante. Quatro dígitos, ex: 2023']
+  reported_user_name text [not null, note: 'Nome do denunciado, que pode não possuir cadastro no sistema']
+  reported_user_id_course text [not null, note: 'Curso informado do denunciado; não referencia a tabela courses']
+  reported_user_id_enrollment_year text [not null, note: 'Ano de ingresso informado do denunciado']
+  is_anonymous integer [default: 0, note: '0 público ou 1 anônimo']
+  category text [not null, note: 'Categorias possíveis de denúncia, fixo no app para economia de entidades']
+  description text [not null, note: 'Descrição detalhada da denúncia, incluindo local, data, hora e demais informações relevantes']
+  status text [default: 'Pendente', note: 'Pendente, Em Análise, Resolvido', checks: 'status in ("Pendente", "Em Análise", "Resolvido")']
+  incident_date text [not null, default: `CURRENT_TIMESTAMP`, note: 'Data e Hora do ocorrido, caso não seja preenchido, será a data do envio da denúncia']
+  photo_1 text [note: 'Foto do ocorrido, caso seja necessário']
+  photo_2 text [note: 'Foto do ocorrido, caso seja necessário']
+  photo_3 text [note: 'Foto do ocorrido, caso seja necessário']
+  user_id_analyzer integer [ref: > users.id, note: 'ID do User do analista da denúncia']
+  progress_report text [note: 'Relatório de progresso da denúncia, caso seja necessário. De quem analisa a denúncia']
+  created_at text [not null, default: `CURRENT_TIMESTAMP`]
+  updated_at text [not null, default: `CURRENT_TIMESTAMP`]
+
+  Indexes {
+    description [name: 'idx_complaints_description']
+    user_id [name: 'idx_complaints_user_id']
+    category [name: 'idx_complaints_category']
+    status [name: 'idx_complaints_status']
+    incident_date [name: 'idx_complaints_incident_date']
+  }
+}
+
+//Trigger para atualizar o campo updated_at em todas as tabelas

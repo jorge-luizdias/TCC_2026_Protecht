@@ -8,18 +8,20 @@ import {
   Alert,
   SafeAreaView,
   ScrollView,
-  Picker,
 } from 'react-native';
 import { FooterLogos } from '../components/logos';
+import { register } from '../services/api';
 
 export default function Cadastro({ navigation }) {
-  const [tipoUsuario, setTipoUsuario] = useState('ALUNO');
+  const [nome, setNome] = useState('');
+  const [rm, setRm] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [carregando, setCarregando] = useState(false);
 
-  const handleCriarConta = () => {
-    if (!email.trim() || !senha.trim() || !confirmarSenha.trim()) {
+  const handleCriarConta = async () => {
+    if (!nome.trim() || !rm.trim() || !email.trim() || !senha.trim() || !confirmarSenha.trim()) {
       Alert.alert('Atenção', 'Preencha todos os campos');
       return;
     }
@@ -27,13 +29,21 @@ export default function Cadastro({ navigation }) {
       Alert.alert('Erro', 'As senhas não coincidem');
       return;
     }
-    if (senha.length < 6) {
-      Alert.alert('Erro', 'A senha deve ter no mínimo 6 caracteres');
+    if (senha.length < 8) {
+      Alert.alert('Erro', 'A senha deve ter no mínimo 8 caracteres');
       return;
     }
-    Alert.alert('Sucesso', 'Conta criada com sucesso!', [
-      { text: 'OK', onPress: () => navigation.navigate('Login') },
-    ]);
+    setCarregando(true);
+    try {
+      await register({ name: nome.trim(), email: email.trim(), rm: rm.trim(), password: senha });
+      Alert.alert('Cadastro realizado', 'Verifique o código enviado para seu e-mail.', [
+        { text: 'Continuar', onPress: () => navigation.navigate('VerificarEmail', { email: email.trim() }) },
+      ]);
+    } catch (error) {
+      Alert.alert('Não foi possível criar a conta', error.message);
+    } finally {
+      setCarregando(false);
+    }
   };
 
   return (
@@ -47,18 +57,22 @@ export default function Cadastro({ navigation }) {
 
         <Text style={styles.title}>Criar Conta</Text>
 
-        <Text style={styles.label}>Acessar como:</Text>
-        <View style={styles.select}>
-          <Picker
-            selectedValue={tipoUsuario}
-            onValueChange={(itemValue) => setTipoUsuario(itemValue)}
-            style={styles.picker}
-          >
-            <Picker.Item label="ALUNO" value="ALUNO" />
-            <Picker.Item label="PROFESSOR" value="PROFESSOR" />
-            <Picker.Item label="RESPONSÁVEL" value="RESPONSÁVEL" />
-          </Picker>
-        </View>
+        <TextInput
+          style={styles.input}
+          placeholder="NOME COMPLETO:"
+          placeholderTextColor="#173A7A"
+          value={nome}
+          onChangeText={setNome}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="RM:"
+          placeholderTextColor="#173A7A"
+          value={rm}
+          onChangeText={setRm}
+          keyboardType="numeric"
+        />
 
         <TextInput
           style={styles.input}
@@ -87,8 +101,8 @@ export default function Cadastro({ navigation }) {
           onChangeText={setConfirmarSenha}
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleCriarConta}>
-          <Text style={styles.buttonText}>CRIAR</Text>
+        <TouchableOpacity style={styles.button} onPress={handleCriarConta} disabled={carregando}>
+          <Text style={styles.buttonText}>{carregando ? 'CRIANDO...' : 'CRIAR'}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>

@@ -1,0 +1,645 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: Protecht Backend API
+meta:
+  id: wrk_5036f18d41604c1798f2566a7c1c3c00
+  created: 1787779737095
+  modified: 1787779737095
+  description: ""
+collection:
+  - name: Admin
+    meta:
+      id: fld_01d9300ea2db4e56acc087b3dcdf9247
+      created: 0
+      modified: 0
+      sortKey: 400
+      description: Operacoes administrativas protegidas
+    children:
+      - url: "{{ _.base_url }}/api/admin/courses"
+        name: Criar curso admin
+        meta:
+          id: req_25d38c55695a46e4bdd87593b6b4bc59
+          created: 0
+          modified: 1787780059764
+          isPrivate: false
+          description: ""
+          sortKey: 500
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "name": "Curso de Teste",
+              "code": "TST"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_50c6a99bff2049439d7fdbf0079acbc8',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/auth/login"
+        name: Login administrador
+        meta:
+          id: req_50c6a99bff2049439d7fdbf0079acbc8
+          created: 0
+          modified: 1787779818237
+          isPrivate: false
+          description: ""
+          sortKey: 150
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "email": "{{ _.admin_email }}",
+              "password": "{{ _.admin_password }}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/admin/users"
+        name: Listar usuarios admin
+        meta:
+          id: req_bfcebe5dc267407bb27cd031d00f4203
+          created: 0
+          modified: 1787779933299
+          isPrivate: false
+          description: ""
+          sortKey: 400
+        method: GET
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_50c6a99bff2049439d7fdbf0079acbc8',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/admin/dashboard"
+        name: Dashboard
+        meta:
+          id: req_c4694331c59247de82f0230f2584c73f
+          created: 0
+          modified: 1787779924172
+          isPrivate: false
+          description: ""
+          sortKey: 300
+        method: GET
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_50c6a99bff2049439d7fdbf0079acbc8',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/admin/courses/{{ _.course_id }}"
+        name: Atualizar curso admin
+        meta:
+          id: req_d225566002624491b003fa33431e60b1
+          created: 0
+          modified: 1787780072127
+          isPrivate: false
+          description: ""
+          sortKey: 700
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "name": "Curso atualizado",
+              "code": "TST"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_50c6a99bff2049439d7fdbf0079acbc8',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/admin/complaints"
+        name: Listar denuncias Gerais
+        meta:
+          id: req_dd9bebd691894be3b714f014d61c94d6
+          created: 0
+          modified: 1787784956826
+          isPrivate: false
+          description: ""
+          sortKey: 100
+        method: GET
+        parameters:
+          - name: status
+            value: Pendente
+          - name: category
+            value: Bullying
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_50c6a99bff2049439d7fdbf0079acbc8',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/admin/users/{{ _.user_id }}"
+        name: Atualizar usuario admin
+        meta:
+          id: req_f2de7e48975a491691504778ba3fd887
+          created: 0
+          modified: 1787779945502
+          isPrivate: false
+          description: ""
+          sortKey: 600
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "name": "Usuario atualizado",
+              "verified_email": true
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_50c6a99bff2049439d7fdbf0079acbc8',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/admin/complaints/{% prompt 'ProtechtBD', 'Entre com
+          Complaints', '1', '', false, true %}"
+        name: Atualizar denuncia
+        meta:
+          id: req_f321874c8a2b4185978807cb90f7b741
+          created: 0
+          modified: 1787785255877
+          isPrivate: false
+          description: ""
+          sortKey: 200
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "status": "Resolvido",
+              "progress_report": "Denuncia resolvida com advertencia oral"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_50c6a99bff2049439d7fdbf0079acbc8',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/admin/complaints?only_resolved=true"
+        name: Listar denuncias Resolvidas
+        meta:
+          id: req_524e3bd0e03d4cb4bd597abccf962f29
+          created: 1787784824583
+          modified: 1787785230764
+          isPrivate: false
+          description: ""
+          sortKey: 125
+        method: GET
+        parameters:
+          - name: status
+            value: Pendente
+          - name: category
+            value: Bullying
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_50c6a99bff2049439d7fdbf0079acbc8',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Health
+    meta:
+      id: fld_2baa1bda50944ad2b03409a008c2f6a0
+      created: 0
+      modified: 0
+      sortKey: 100
+      description: Disponibilidade da API
+    children:
+      - url: "{{ _.base_url }}/health"
+        name: Health check
+        meta:
+          id: req_2289da77f69a43afb5e5ab4318df1cb2
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: 100
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Usuario e denuncias
+    meta:
+      id: fld_66e3ee7d3aba40e2812689c47e8e5f27
+      created: 0
+      modified: 1787784429491
+      sortKey: 300
+      description: Operacoes protegidas de usuario
+    children:
+      - url: "{{ _.base_url }}/api/complaints"
+        name: Listar minhas denuncias
+        meta:
+          id: req_258caea387364e3b88b05ab6bb5a3f0d
+          created: 0
+          modified: 1787783116392
+          isPrivate: false
+          description: ""
+          sortKey: 300
+        method: GET
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_b7a0b7919bc1486489707d9486bb2d4c',
+            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/courses"
+        name: Listar cursos
+        meta:
+          id: req_df41e876b2c847ab8f25a84db8422a72
+          created: 0
+          modified: 1787782096574
+          isPrivate: false
+          description: ""
+          sortKey: 100
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/me"
+        name: Meu perfil
+        meta:
+          id: req_e11dd55748f64d76b81977f3d11f9c14
+          created: 0
+          modified: 1787780830822
+          isPrivate: false
+          description: ""
+          sortKey: 200
+        method: GET
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_b7a0b7919bc1486489707d9486bb2d4c',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/complaints"
+        name: Criar denuncia
+        meta:
+          id: req_f2ceee2d5c2a43329b87aad962d27e5d
+          created: 0
+          modified: 1787784396029
+          isPrivate: false
+          description: ""
+          sortKey: 400
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: user_id_course
+              value: "{{ _.cursoId }}"
+              type: text
+            - name: user_id_enrollment_year
+              value: "2026"
+              type: text
+            - name: reported_user_name
+              value: "{% faker 'randomFullName' %}"
+              type: text
+            - name: reported_user_id_course
+              value: "{{ _.cursoId }}"
+              type: text
+            - name: reported_user_id_enrollment_year
+              value: "2025"
+              type: text
+            - name: is_anonymous
+              value: "{{_.ano }}"
+              type: text
+            - name: category
+              value: "{{_.tipoDenuncia}}"
+              type: text
+            - name: description
+              value: "{% prompt 'ProtechtBD', 'Digite a Denúncia', 'Entre aqui com os detalhes
+                das denúncias', '', false, true %}"
+              type: text
+            - name: incident_date
+              value: 2026-08-26T12:00:00.000Z
+              type: text
+            - name: photo_1
+              fileName: C:\Users\Graziani Zanfolin\Downloads\notas\001 - Copia.png
+              type: file
+            - name: photo_2
+              fileName: ""
+              type: file
+            - name: photo_3
+              fileName: ""
+              type: file
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_b7a0b7919bc1486489707d9486bb2d4c',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        scripts:
+          preRequest: >-
+            const baseUrl = insomnia.variables.get('base_url');
+
+
+            const resp = await new Promise((resolve, reject) => {
+              insomnia.sendRequest(`${baseUrl}/api/courses`, (err, res) =>
+                err ? reject(err) : resolve(res)
+              );
+            });
+
+
+            const cursos = resp.json();
+
+
+            if (!Array.isArray(cursos) || cursos.length === 0) {
+              throw new Error('Lista de cursos vazia ou em formato inesperado');
+            }
+
+
+            const tiposDenuncia = [
+              'BULLYING',
+              'ASSEDIO',
+              'VANDALISMO',
+              'DISCRIMINACAO',
+              'USO_DE_SUBSTANCIAS'
+            ];
+
+
+            const anos = [2024, 2025, 2026];
+
+
+            const sortear = lista => lista[Math.floor(Math.random() *
+            lista.length)];
+
+
+            const curso = sortear(cursos);
+
+            const tipo = sortear(tiposDenuncia);
+
+            const ano = sortear(anos);
+
+
+            insomnia.variables.set('cursoId', String(curso.id));
+
+            insomnia.variables.set('tipoDenuncia', tipo);
+
+            insomnia.variables.set('ano', String(ano));
+
+
+            console.log(`curso: ${curso.name} | tipo: ${tipo} | ano: ${ano}`);
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Autenticacao mobile
+    meta:
+      id: fld_d2f7b62fb834455ab89a26958fc1983c
+      created: 0
+      modified: 1787783825735
+      sortKey: 200
+      description: Cadastro, verificacao e login
+    children:
+      - url: "{{ _.base_url }}/api/auth/register"
+        name: 1 - Cadastrar usuario
+        meta:
+          id: req_7972f3b950ce4b62be84d4da9d42e4a3
+          created: 0
+          modified: 1787780556610
+          isPrivate: false
+          description: ""
+          sortKey: 100
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "name": "Usuario Mobile",
+              "email": "{% faker 'randomEmail' %}",
+              "rm": "{{ _.codigo5 }}",
+              "password": "{{ _.user_password }}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        scripts:
+          preRequest: |-
+            // gera 10000–99999, sempre 5 dígitos
+            const codigo = Math.floor(10000 + Math.random() * 90000);
+            insomnia.environment.set('codigo5', String(codigo));
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/auth/resend"
+        name: Reenviar codigo
+        meta:
+          id: req_96fb488cb13b4d8d801a8e07bf07d958
+          created: 0
+          modified: 1787780664922
+          isPrivate: false
+          description: ""
+          sortKey: 300
+        method: POST
+        body:
+          mimeType: application/json
+          text: >-
+            {
+              "email": "{% response 'body', 'req_7972f3b950ce4b62be84d4da9d42e4a3', 'b64::JC5lbWFpbA==::46b', 'never', 60 %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/auth/login"
+        name: 3 - Login usuario
+        meta:
+          id: req_b7a0b7919bc1486489707d9486bb2d4c
+          created: 0
+          modified: 1787780773671
+          isPrivate: false
+          description: ""
+          sortKey: 400
+        method: POST
+        body:
+          mimeType: application/json
+          text: >-
+            {
+              "email": "{% response 'body', 'req_7972f3b950ce4b62be84d4da9d42e4a3', 'b64::JC5lbWFpbA==::46b', 'never', 60 %}",
+              "password": "{{ _.user_password }}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/auth/verify"
+        name: 2 - Verificar codigo de 4 digitos
+        meta:
+          id: req_c8bc847506b742b4a2a98530025749f9
+          created: 0
+          modified: 1787783843443
+          isPrivate: false
+          description: ""
+          sortKey: 200
+        method: POST
+        body:
+          mimeType: application/json
+          text: >-
+            {
+              "email": "{% response 'body', 'req_7972f3b950ce4b62be84d4da9d42e4a3', 'b64::JC5lbWFpbA==::46b', 'never', 60 %}",
+              "code": "8669"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_0d28abe3b78f36ffd8786068f39b242f4d3e21a5
+    created: 1787779737534
+    modified: 1787784429483
+environments:
+  name: Base Environment
+  meta:
+    id: env_ee13acdf67954b80b50e829406ac57b1
+    created: 0
+    modified: 1787784429488
+    isPrivate: false
+  data:
+    base_url: http://localhost:3000
+    user_email: mobile.teste@example.com
+    user_rm: "20260001"
+    user_password: SenhaTeste123!
+    verification_code: "0000"
+    admin_email: admin@admin.com
+    admin_password: Admin12345!
+    admin_token: "{% response 'body', 'req_login_admin', '$.token', 'always' %}"
+    user_token: "{% response 'body', 'req_login_user', '$.token', 'always' %}"
+    user_id: "2"
+    course_id: "1"
+    reported_user_id: "1"
+    reported_course_id: "1"
+    complaint_id: "1"
+  subEnvironments:
+    - name: Local
+      meta:
+        id: env_958ffd2520d3464c871f79200688776a
+        created: 0
+        modified: 1787784429486
+        isPrivate: false
+        sortKey: 0
+      data:
+        codigo5: "89394"

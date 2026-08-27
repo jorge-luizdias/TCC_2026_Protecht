@@ -4,7 +4,12 @@
   "description": "TCC 2026",
   "main": "src/sever.js",
   "scripts": {
-    "dev": "node --watch src/sever.js"
+    "dev": "npm --prefix backend-protecht-main run dev",
+    "start": "npm --prefix backend-protecht-main run start",
+    "migrate:latest": "npm --prefix backend-protecht-main run migrate:latest",
+    "migrate:rollback": "npm --prefix backend-protecht-main run migrate:rollback",
+    "seed:run": "npm --prefix backend-protecht-main run seed:run",
+    "test": "npm --prefix backend-protecht-main run test"
   },
   "keywords": [],
   "author": "",

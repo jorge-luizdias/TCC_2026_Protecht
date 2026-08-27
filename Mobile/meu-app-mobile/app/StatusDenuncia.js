@@ -23,8 +23,8 @@ const { width } = Dimensions.get('window');
 // ── Badge de status (somente leitura) ───────────────────
 const STATUS_MAP = {
   Pendente:      { bg: '#fff3cd', color: '#856404', icon: '⚠️' },
-  'Em análise':  { bg: '#cce5ff', color: '#004085', icon: '🔍' },
-  Resolvida:     { bg: '#d4edda', color: '#155724', icon: '✅' },
+  'Em Análise':  { bg: '#cce5ff', color: '#004085', icon: '🔍' },
+  Resolvido:     { bg: '#d4edda', color: '#155724', icon: '✅' },
   Arquivada:     { bg: '#e2e3e5', color: '#383d41', icon: '📁' },
 };
 

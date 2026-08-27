@@ -11,19 +11,29 @@ import {
   Image,
 } from 'react-native';
 import { FooterLogos } from '../components/logos';
+import { login } from '../services/api';
 
 export default function LoginScreen({ navigation, onLogin }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [carregando, setCarregando] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email.trim() || !senha.trim()) {
       Alert.alert('Atenção', 'Preencha email e senha');
       return;
     }
 
-    Alert.alert('Sucesso', 'Login realizado!');
-    onLogin?.();
+    setCarregando(true);
+    try {
+      const sessao = await login(email.trim(), senha);
+      Alert.alert('Sucesso', 'Login realizado!');
+      onLogin?.(sessao);
+    } catch (error) {
+      Alert.alert('Não foi possível entrar', error.message);
+    } finally {
+      setCarregando(false);
+    }
   };
 
   return (
@@ -56,8 +66,8 @@ export default function LoginScreen({ navigation, onLogin }) {
           onChangeText={setSenha}
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>ENTRAR</Text>
+        <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={carregando}>
+          <Text style={styles.buttonText}>{carregando ? 'ENTRANDO...' : 'ENTRAR'}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('RecuperacaoSenha')}>

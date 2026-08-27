@@ -10,6 +10,7 @@ import Loading from './loading';
 import Login from './login';
 import Cadastro from './Cadastro';
 import RecuperacaoSenha from './recuperacaoSenha';
+import VerificarEmail from './VerificarEmail';
 
 // Telas do App
 import Inicio from './inicio';
@@ -84,10 +85,11 @@ function DrawerNavigator() {
 // ── Stack com autenticação e navegação ────────────────────
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [session, setSession] = useState(null);
 
   return (
     <NavigationContainer key={isLoggedIn ? 'logged-in' : 'logged-out'}>
-      <DenunciasProvider>
+      <DenunciasProvider session={session}>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
           initialRouteName={!isLoggedIn ? 'Loading' : 'Home'}
@@ -96,7 +98,7 @@ export default function App() {
             <>
               <Stack.Screen name="Loading" component={Loading} />
               <Stack.Screen name="Login" options={{ animationEnabled: false }}>
-                {(props) => <Login {...props} onLogin={() => setIsLoggedIn(true)} />}
+                {(props) => <Login {...props} onLogin={(newSession) => { setSession(newSession); setIsLoggedIn(true); }} />}
               </Stack.Screen>
               <Stack.Screen
                 name="Cadastro"
@@ -108,6 +110,7 @@ export default function App() {
                 component={RecuperacaoSenha}
                 options={{ animationEnabled: true }}
               />
+              <Stack.Screen name="VerificarEmail" component={VerificarEmail} />
             </>
           ) : (
             <>
